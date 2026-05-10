@@ -40,3 +40,4 @@ def artifactProduce() {
         echo 'OK'
     }
 }
+
