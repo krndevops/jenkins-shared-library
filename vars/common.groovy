@@ -12,8 +12,10 @@ def integrationTests() {
 }
 
 def codeQuality() {
-    stage('Code Quality'){
-        echo 'OK'
+    stage('Code Quality') {
+        withCredentials([usernamePassword(credentialsId: 'SONARQUBE', passwordVariable: 'SONAR_PASS', usernameVariable: 'SONAR_USER')]) {
+            sh 'sonar-scanner -Dsonar.host.url=http://sonarqube-int.kdevops.online:9000 -Dsonar.login=${SONAR_USER} -Dsonar.password=${SONAR_PASS} -Dsonar.projectKey="${service_name}" -Dsonar.qualitygate.wait=true'
+        }
     }
 }
 
