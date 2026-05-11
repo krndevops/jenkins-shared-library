@@ -2,7 +2,7 @@ def call() {
 
     node('workstation') {
         if (env.BRANCH_NAME == 'main') {
-            echo 'Nothing to Do'
+            common.codeQuality()
 
         }
         else if (env.BRANCH_NAME =~ '.*') {
