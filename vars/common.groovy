@@ -40,7 +40,10 @@ def secretDetection() {
 
 def artifactProduce() {
     stage('Artifact Produce'){
-        echo 'OK'
+        sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 367241114876.dkr.ecr.us-east-1.amazonaws.com'
+        sh 'docker build -t 367241114876.dkr.ecr.us-east-1.amazonaws.com/default/${service_name}:${TAG_NAME} .'
+        sh 'docker push 367241114876.dkr.ecr.us-east-1.amazonaws.com/default/${service_name}:${TAG_NAME} .'
+
     }
 }
 
