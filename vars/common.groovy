@@ -33,8 +33,8 @@ def sca() {
 }
 
 def secretDetection() {
-    stage('SECRET Detection'){
-        sh 'trufflehog filesystem .'
+    stage('Secret Detection'){
+        sh 'trufflehog git file://. --no-update'
     }
 }
 
