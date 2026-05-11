@@ -11,6 +11,7 @@ def call() {
             common.sca()
             common.secretDetection()
             common.artifactProduce()
+            common.codeDeploy()
         }
 
         // MAIN BRANCH
@@ -25,6 +26,7 @@ def call() {
             common.unitTests()
             common.integrationTests()
             common.codeQuality()
+
         }
     }
 }

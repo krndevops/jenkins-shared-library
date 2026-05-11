@@ -64,3 +64,22 @@ def codeCheckout() {
         )
     }
 }
+
+
+def codeDeploy() {
+    stage('Dev Deployment') {
+        withCredentials([usernamePassword(credentialsId: 'TOKEN', passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
+            sh '''
+      rm -rf /tmp/repo
+      mkdir -p /tmp/repo 
+      git clone https://${GIT_USER}:${GIT_PASS}@github.com/krndevops/${service_name} /tmp/repo
+      cd /tmp/repo 
+      sed -i  "/739561048503.dkr.ecr.us-east-1.amazonaws.com/default/\\/${service_name}/ c \\ \\ \\ \\ image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/default\\/${service_name}:${TAG_NAME}" helm/chart/values.yaml
+      git add helm/chart/values.yaml
+      git commit -m "Change from Jenkins | Change Version Number to ${TAG_NAME}" || true
+      git push
+      argocd app sync ${service_name}
+    '''
+        }
+    }
+}
