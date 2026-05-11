@@ -4,22 +4,27 @@ def call() {
 
         common.codeCheckout()
 
-        if (env.BRANCH_NAME == 'main') {
-            common.codeQuality()
+        // TAG BUILD
+        if (env.TAG_NAME) {
 
-        }
-        else if (env.BRANCH_NAME =~ '.*') {
-            common.unitTests()
-            common.integrationTests()
-            common.codeQuality()
-        }
-        else if (env.TAG_NAME =~ '.*') {
             common.sast()
             common.sca()
             common.secretDetection()
             common.artifactProduce()
         }
 
-    }
+        // MAIN BRANCH
+        else if (env.BRANCH_NAME == 'main') {
 
+            common.codeQuality()
+        }
+
+        // OTHER BRANCHES
+        else {
+
+            common.unitTests()
+            common.integrationTests()
+            common.codeQuality()
+        }
+    }
 }
